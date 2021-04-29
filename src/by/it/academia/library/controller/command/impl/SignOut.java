@@ -31,7 +31,6 @@ public class SignOut implements Command {
             response = "Что-то пошло не так";
         } catch (ServiceNotFoundException e) {
             response = "Пользователь не залогинен";
-            response = null;
         }
         return response;
     }

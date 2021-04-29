@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class UserDAO implements FileUserDAO {
     private final String fileName = "newFile.txt";
+    private final String delimeter = "#";
 
     @Override
     public void signIn(String login, String password) throws DAOException, DAOResourceNotFoundException {
@@ -22,7 +23,7 @@ public class UserDAO implements FileUserDAO {
                 try (BufferedReader reader = new BufferedReader(new FileReader(filePath))){
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        if(line.split("\\$")[0].equals(login) && line.split("\\$")[1].equals(password)){
+                        if(line.split(delimeter)[0].equals(login) && line.split(delimeter)[1].equals(password)){
                             return;
                         }
                     }
@@ -104,10 +105,10 @@ public class UserDAO implements FileUserDAO {
                 }
             }
             for(int i = 0; i < result.size()-1; i++){
-                String[] user = result.get(i).split("\\$");
+                String[] user = result.get(i).split(delimeter);
                 if (user[0].equals(login)){
                     user[4] = "no\n";
-                    result.set(i,String.format("%s$%s$%s$%s$%s",user[0],user[1],user[2],user[3],user[4]));
+                    result.set(i,String.format("%s#%s#%s#%s#%s",user[0],user[1],user[2],user[3],user[4]));
                     return;
                 }
             }

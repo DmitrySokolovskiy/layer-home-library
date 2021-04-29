@@ -12,17 +12,15 @@ final class CommandProvider {
 
     public CommandProvider() {
         repository.put(CommandName.SIGN_IN, new SignIn());
-        repository.put(CommandName.SIGN_OUT, new SignOut());
         repository.put(CommandName.PRINT_BOOK_LIST, new PrintBookList());
         repository.put(CommandName.DELETE_BOOK, new DeleteBook());
         repository.put(CommandName.ADD_BOOK, new AddBook());
-        repository.put(CommandName.REGISTRATION, new Registration());
         repository.put(CommandName.WRONG_REQUEST, new WrongRequest());
     }
 
     Command getCommand(String name) {
-        CommandName commandName = null;
-        Command command = null;
+        CommandName commandName;
+        Command command;
 
         try {
             commandName = CommandName.valueOf(name.toUpperCase());

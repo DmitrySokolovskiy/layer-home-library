@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         while (true){
-            boolean authorezated = false;
+            boolean authorized = false;
             Controller controller = new Controller();
             Scanner sc = new Scanner(System.in);
 
@@ -18,7 +18,6 @@ public class Main {
             request +=  "#" + sc.nextLine();
 
             String result = controller.executeTask(request);
-//            result = "Welcome!!!";
             while (result != "Welcome!!!"){
                 try {
                     Runtime.getRuntime().exec("cmd /c cls");
@@ -35,9 +34,9 @@ public class Main {
                 result = controller.executeTask(request);
             }
 
-            authorezated = true;
+            authorized = true;
             System.out.println(result);
-            while (authorezated){
+            while (authorized){
                 System.out.println("Наш текущий список книг:");
                 request = "PRINT_BOOK_LIST";
                 result = controller.executeTask(request);
@@ -67,13 +66,15 @@ public class Main {
                     switch (choice){
                         case 1:
                             //Добавление новой книги, не добавлял ввод для экономии времени:)
-                            request = "ADD_BOOK#1238#\"4 градуса по Фаренгейту\"#Рей Брэдбери#2008#256#Роман,Научная фантастика,Политическаяфантастика,Антиутопическаялитература";
+                            request = "ADD_BOOK#1238#\"4 градуса по Фаренгейту\"#Рей Брэдбери#2008#256#Роман," +
+                                    "Научная фантастика,Политическаяфантастика,Антиутопическаялитература";
                             result = controller.executeTask(request+" ");
                             System.out.println(result);
                             break;
                         case 2:
                             //Удаление книги, не добавлял ввод для экономии времени:)
-                            request = "DELETE_BOOK#1238#\"4 градуса по Фаренгейту\"#Рей Брэдбери#2008#256#Роман,Научная фантастика,Политическаяфантастика,Антиутопическаялитература";
+                            request = "DELETE_BOOK#1238#\"4 градуса по Фаренгейту\"#Рей Брэдбери#2008#256#Роман," +
+                                    "Научная фантастика,Политическаяфантастика,Антиутопическаялитература";
                             result = controller.executeTask(request+" ");
                             System.out.println(result);
                             break;
@@ -95,22 +96,10 @@ public class Main {
                             break;
                     }
                 }
-                authorezated = false;
+                authorized = false;
                 System.out.println("Спасибо, вы разлогированны!");
 
             }
-
-
-
-
-            //Регистрация
-//        param.clear();
-//        param.put("command", "REGISTRATION");
-//        param.put("login", "Sokolovs_D");
-//        param.put("password", "password");
-//        param.put("email", "mail@mail.ru");
-//        param.put("role", "User");
-//        System.out.println(controller.executeTask(param));
         }
 
     }

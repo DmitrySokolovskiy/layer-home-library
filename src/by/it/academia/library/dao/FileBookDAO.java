@@ -6,7 +6,7 @@ import by.it.academia.library.dao.exception.DAOResourceExistsExeption;
 import by.it.academia.library.dao.exception.DAOResourceNotFoundException;
 
 public interface FileBookDAO {
-    public String PrintBookList() throws DAOException, DAOResourceNotFoundException;
-    public void addBook(Book book) throws DAOException, DAOResourceExistsExeption;
-    public void deleteBook(Book book) throws DAOException, DAOResourceNotFoundException;
+    String PrintBookList() throws DAOException, DAOResourceNotFoundException;
+    void addBook(Book book) throws DAOException, DAOResourceExistsExeption;
+    void deleteBook(Book book) throws DAOException, DAOResourceNotFoundException;
 }

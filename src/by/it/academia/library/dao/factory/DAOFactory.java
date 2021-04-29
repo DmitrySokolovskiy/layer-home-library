@@ -1,9 +1,10 @@
-package by.it.academia.dao.factory;
+package by.it.academia.library.dao.factory;
 
-import by.it.academia.dao.FileBookDAO;
-import by.it.academia.dao.FileUserDAO;
-import by.it.academia.dao.impl.BookDAO;
-import by.it.academia.dao.impl.UserDAO;
+import by.it.academia.library.dao.FileBookDAO;
+import by.it.academia.library.dao.FileUserDAO;
+import by.it.academia.library.dao.exception.DAOException;
+import by.it.academia.library.dao.impl.BookDAO;
+import by.it.academia.library.dao.impl.UserDAO;
 
 public class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();

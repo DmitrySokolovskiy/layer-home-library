@@ -1,9 +1,9 @@
-package by.it.academia.service.factory;
+package by.it.academia.library.service.factory;
 
-import by.it.academia.service.ClientService;
-import by.it.academia.service.LibraryService;
-import by.it.academia.service.impl.ClientServiceImpl;
-import by.it.academia.service.impl.LibraryServiceImpl;
+import by.it.academia.library.service.ClientService;
+import by.it.academia.library.service.LibraryService;
+import by.it.academia.library.service.impl.ClientServiceImpl;
+import by.it.academia.library.service.impl.LibraryServiceImpl;
 
 final public class ServiceFactory {
     private static final ServiceFactory instance = new ServiceFactory();
@@ -16,7 +16,7 @@ final public class ServiceFactory {
     public static ServiceFactory getInstance(){
         return instance;
     }
-    public ClientService getCLientService(){
+    public ClientService getClientService(){
         return clientService;
     }
     public LibraryService getLibraryService(){

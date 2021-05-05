@@ -21,7 +21,7 @@ public class BookDAO implements FileBookDAO {
     private final String delimeter = "#";
 
     @Override
-    public String PrintBookList() throws DAOException, DAOResourceNotFoundException {
+    public String PrintBookList() throws DAOException {
         String filePath = String.format(".\\resources\\%s", fileName);
         Path path = Paths.get(filePath);
         String books = "";
@@ -37,12 +37,10 @@ public class BookDAO implements FileBookDAO {
                     }
                 }
                 if (books == "") {
-                    throw new DAOResourceNotFoundException("Книг в библиотеке нет");
+                    books = "Наша библиотека была разорена:) или книги уехали в другую библиотеку";
                 }
             } catch (IOException e) {
                 throw new DAOException("Не удалось открыть файл на чтение", e);
-            } catch (DAOResourceNotFoundException e) {
-                throw new DAOResourceNotFoundException(e);
             }
         }
         return books;
@@ -52,7 +50,7 @@ public class BookDAO implements FileBookDAO {
     public void addBook(Book book) throws DAOException, DAOResourceExistsExeption {
 
         String filePath = String.format(".\\resources\\%s", fileName);
-
+        book.setId(bookIdNumberGenerator());
 
         try {
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -60,14 +58,14 @@ public class BookDAO implements FileBookDAO {
                 while ((line = reader.readLine()) != null) {
                     if (!line.trim().equals("")) {
                         String[] splitedLine = line.split(delimeter);
-                        if (Integer.parseInt(splitedLine[0]) == book.getSerialNumber() || splitedLine[1].equals(book.getTitle())) {
+                        if (splitedLine[1].equals(book.getTitle())) {
                             throw new DAOResourceExistsExeption("Книга уже есть библиотеке");
                         }
                     }
                 }
             }
             try (FileWriter fr = new FileWriter(filePath, true)) {
-                fr.write(String.format("%d#%s#%s#%d#%d#%s\n", book.getSerialNumber(), book.getTitle(),
+                fr.write(String.format("%d#%s#%s#%d#%d#%s\n", book.getId(), book.getTitle(),
                         book.getAuthor(), book.getPublicationYear(), book.getBookLength(), book.getGenre()));
             }
         } catch (IOException e) {
@@ -89,7 +87,7 @@ public class BookDAO implements FileBookDAO {
                 while ((line = reader.readLine()) != null) {
                     if (!line.trim().equals("")) {
                         String[] splitedLine = line.split(delimeter);
-                        if (Integer.parseInt(splitedLine[0]) != book.getSerialNumber() & !splitedLine[1].equals(book.getTitle())) {
+                        if (Integer.parseInt(splitedLine[0]) != book.getId()) {
                             books.add(line);
                         } else {
                             notFound = false;
@@ -110,5 +108,57 @@ public class BookDAO implements FileBookDAO {
         } catch (NumberFormatException e) {
             throw new DAOException("Нарушена структура файла", e);
         }
+    }
+
+    private int bookIdNumberGenerator() throws DAOException {
+
+        String filePath = String.format(".\\resources\\%s", fileName);
+        int generatedBookId;
+
+        try {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                String temp = "";
+                while ((line = reader.readLine()) != null) {
+                    if (!line.trim().equals("")) {
+                        temp = line;
+                    }
+                }
+                String[] splitedLine = temp.split(delimeter);
+                generatedBookId = Integer.parseInt(splitedLine[0]) + 1;
+            }
+        } catch (IOException e) {
+            throw new DAOException(e);
+        } catch (NumberFormatException e) {
+            throw new DAOException("Нарушена структура файла", e);
+        }
+
+        return generatedBookId;
+    }
+
+    @Override
+    public String getBookDetailInfo(int bookId) throws DAOException {
+        String filePath = String.format(".\\resources\\%s", fileName);
+
+        try {
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (!line.trim().equals("")) {
+                        String[] splitedLine = line.split(delimeter);
+                        if (Integer.parseInt(splitedLine[0]) == bookId) {
+                            return String.format("%d %s %s %s %s %s", bookId, splitedLine[1], splitedLine[2],
+                                    splitedLine[3], splitedLine[4], splitedLine[5]);
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new DAOException(e);
+        } catch (NumberFormatException e) {
+            throw new DAOException("Нарушена структура файла", e);
+        }
+
+        return "Книга с таким номером не найдена в библиотеке";
     }
 }

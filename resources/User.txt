@@ -1,5 +1,5 @@
-Sokolovskiy_D#passw0rd#Sokolovskiy@local.com#Administrator#no#
-Kolokol_S#passw1rd#Kolokol@local.com#User#no#
-Vlasov_K#passw2rd#Vlasov@local.com#User#no#
-Chifirin_F#passw3rd#Chifirin@local.com#User#no#
-Handanovich_D#passw4rd#Handanovich@local.com#Moderator#no#
+1#Sokolovskiy_D#passw0rd#Sokolovskiy@local.com#Administrator
+2#Kolokol_S#passw1rd#Kolokol@local.com#User
+3#Vlasov_K#passw2rd#Vlasov@local.com#User
+4#Chifirin_F#passw3rd#Chifirin@local.com#User
+5#Handanovich_D#passw4rd#Handanovich@local.com#User

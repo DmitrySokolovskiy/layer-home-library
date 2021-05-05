@@ -8,43 +8,64 @@ import by.it.academia.library.dao.factory.DAOFactory;
 import by.it.academia.library.service.LibraryService;
 import by.it.academia.library.service.exception.ServiceAlreadyExistException;
 import by.it.academia.library.service.exception.ServiceException;
+import by.it.academia.library.service.exception.ServiceNoPermissionsException;
 import by.it.academia.library.service.exception.ServiceNotFoundException;
 
 public class LibraryServiceImpl implements LibraryService {
     @Override
-    public String PrintBookList() throws ServiceNotFoundException, ServiceException {
+    public String PrintBookList() throws ServiceException {
         String response;
         try {
             response = DAOFactory.getInstance().getFileBookDAO().PrintBookList();
-        }catch (DAOResourceNotFoundException e){
-            throw new ServiceNotFoundException(e);
-        }catch (DAOException e){
+        } catch (DAOException e) {
             throw new ServiceException(e);
-    }
-
+        }
         return response;
     }
 
     @Override
-    public void addNewBook(Book book) throws ServiceException, ServiceAlreadyExistException {
+    public void addNewBook(Book book, String login) throws ServiceException, ServiceAlreadyExistException, ServiceNoPermissionsException {
         try {
-            DAOFactory.getInstance().getFileBookDAO().addBook(book);
-        }catch (DAOException e){
+            if (DAOFactory.getInstance().getFileUserDAO().checkPermissions(login)) {
+                DAOFactory.getInstance().getFileBookDAO().addBook(book);
+            } else {
+                throw new ServiceNoPermissionsException("Операция требует администратоских прав!");
+            }
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }catch (DAOResourceExistsExeption e){
+        } catch (DAOResourceExistsExeption e) {
             throw new ServiceAlreadyExistException("Книга уже добавлена в библиотеку", e);
+        } catch (ServiceNoPermissionsException e) {
+            throw new ServiceNoPermissionsException(e);
         }
     }
 
     @Override
-    public void deleteBook(Book book) throws ServiceException, ServiceNotFoundException {
+    public void deleteBook(Book book, String login) throws ServiceException, ServiceNotFoundException, ServiceNoPermissionsException {
         try {
-            DAOFactory.getInstance().getFileBookDAO().deleteBook(book);
-        }catch (DAOException e){
+            if (DAOFactory.getInstance().getFileUserDAO().checkPermissions(login)) {
+                DAOFactory.getInstance().getFileBookDAO().deleteBook(book);
+            } else {
+                throw new ServiceNoPermissionsException("Операция требует администратоских прав!");
+            }
+        } catch (DAOException e) {
             throw new ServiceException(e);
-        }catch (DAOResourceNotFoundException e){
+        } catch (DAOResourceNotFoundException e) {
             throw new ServiceNotFoundException("Книга отсутствует в библиотеке", e);
+        } catch (ServiceNoPermissionsException e) {
+            throw new ServiceNoPermissionsException(e);
         }
+    }
+
+    @Override
+    public String getBookDetailInfo(int bookId) {
+        String response;
+        try {
+            response = DAOFactory.getInstance().getFileBookDAO().getBookDetailInfo(bookId);
+        } catch (DAOException e) {
+            response = e.getMessage();
+        }
+        return response;
     }
 
 

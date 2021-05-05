@@ -12,9 +12,11 @@ final class CommandProvider {
 
     public CommandProvider() {
         repository.put(CommandName.SIGN_IN, new SignIn());
+        repository.put(CommandName.REGISTRATION, new Registration());
         repository.put(CommandName.PRINT_BOOK_LIST, new PrintBookList());
         repository.put(CommandName.DELETE_BOOK, new DeleteBook());
         repository.put(CommandName.ADD_BOOK, new AddBook());
+        repository.put(CommandName.GET_BOOK_DETAIL_INFO, new getBookDetailInfo());
         repository.put(CommandName.WRONG_REQUEST, new WrongRequest());
     }
 

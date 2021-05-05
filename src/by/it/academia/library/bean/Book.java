@@ -1,6 +1,7 @@
 package by.it.academia.library.bean;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Book implements Serializable {
     private int id;
@@ -9,15 +10,16 @@ public class Book implements Serializable {
     private int bookLength;
     private String genre;
     private int publicationYear;
-    private int serialNumber;
 
-    public Book(int serialNumber, String title, String author,int publicationYear, int bookLength, String genre) {
+    public Book(int id){
+        this.id = id;
+    }
+    public Book(String title, String author, int publicationYear, int bookLength, String genre) {
         this.title = title;
         this.author = author;
+        this.publicationYear = publicationYear;
         this.bookLength = bookLength;
         this.genre = genre;
-        this.publicationYear = publicationYear;
-        this.serialNumber = serialNumber;
     }
 
     public int getId() {
@@ -68,11 +70,33 @@ public class Book implements Serializable {
         this.publicationYear = publicationYear;
     }
 
-    public int getSerialNumber() {
-        return serialNumber;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id == book.id &&
+                bookLength == book.bookLength &&
+                publicationYear == book.publicationYear &&
+                title.equals(book.title) &&
+                author.equals(book.author) &&
+                genre.equals(book.genre);
     }
 
-    public void setSerialNumber(int serialNumber) {
-        this.serialNumber = serialNumber;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, author, bookLength, genre, publicationYear);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + "{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", bookLength=" + bookLength +
+                ", genre='" + genre + '\'' +
+                ", publicationYear=" + publicationYear +
+                '}';
     }
 }

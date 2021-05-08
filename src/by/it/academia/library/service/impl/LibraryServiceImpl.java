@@ -11,12 +11,14 @@ import by.it.academia.library.service.exception.ServiceException;
 import by.it.academia.library.service.exception.ServiceNoPermissionsException;
 import by.it.academia.library.service.exception.ServiceNotFoundException;
 
+import java.util.ArrayList;
+
 public class LibraryServiceImpl implements LibraryService {
     @Override
-    public String PrintBookList() throws ServiceException {
-        String response;
+    public ArrayList<Book> PrintBookList() throws ServiceException {
+        ArrayList<Book> response = new ArrayList<>();
         try {
-            response = DAOFactory.getInstance().getFileBookDAO().PrintBookList();
+            response.addAll(DAOFactory.getInstance().getFileBookDAO().PrintBookList());
         } catch (DAOException e) {
             throw new ServiceException(e);
         }
@@ -58,12 +60,12 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public String getBookDetailInfo(int bookId) {
-        String response;
+    public Book getBookDetailInfo(int bookId) throws ServiceNotFoundException {
+        Book response;
         try {
             response = DAOFactory.getInstance().getFileBookDAO().getBookDetailInfo(bookId);
         } catch (DAOException e) {
-            response = e.getMessage();
+            throw new ServiceNotFoundException(e);
         }
         return response;
     }

@@ -151,7 +151,7 @@ public class Main {
                         case 5:
                             request = "GET_BOOK_DETAIL_INFO#1111";
                             result = controller.executeTask(request);
-                            System.out.println(result);
+                            System.out.println(result+'\n');
                             break;
                         case 6:
                             choice = 6;

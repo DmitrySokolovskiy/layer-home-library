@@ -1,11 +1,10 @@
 package by.it.academia.library.controller.command.impl;
 
+import by.it.academia.library.bean.Book;
 import by.it.academia.library.controller.command.Command;
-import by.it.academia.library.dao.exception.DAOException;
 import by.it.academia.library.service.LibraryService;
-import by.it.academia.library.service.exception.ServiceAlreadyExistException;
 import by.it.academia.library.service.exception.ServiceException;
-import by.it.academia.library.service.exception.ServiceNoPermissionsException;
+import by.it.academia.library.service.exception.ServiceNotFoundException;
 import by.it.academia.library.service.factory.ServiceFactory;
 
 public class getBookDetailInfo implements Command {
@@ -23,12 +22,23 @@ public class getBookDetailInfo implements Command {
             ServiceFactory serviceFactory = ServiceFactory.getInstance();
             LibraryService libraryService = serviceFactory.getLibraryService();
 
-            response = libraryService.getBookDetailInfo(bookId);
+            Book serviceResponse = libraryService.getBookDetailInfo(bookId);
+            response = String.format("%d %s %s %d %d %s",
+                    serviceResponse.getId(),
+                    serviceResponse.getTitle(),
+                    serviceResponse.getAuthor(),
+                    serviceResponse.getPublicationYear(),
+                    serviceResponse.getBookLength(),
+                    serviceResponse.getGenre()
+            );
+
 
         } catch (ServiceException e) {
             response = "Упс, что-то пошло не так";
         } catch (NumberFormatException e) {
             response = "Не переданны все параметры для поиска книги";
+        } catch (ServiceNotFoundException e) {
+            response = "Такой книги нет в библотеке";
         }
         return response;
     }

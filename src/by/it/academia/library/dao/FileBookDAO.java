@@ -5,9 +5,11 @@ import by.it.academia.library.dao.exception.DAOException;
 import by.it.academia.library.dao.exception.DAOResourceExistsExeption;
 import by.it.academia.library.dao.exception.DAOResourceNotFoundException;
 
+import java.util.ArrayList;
+
 public interface FileBookDAO {
-    String PrintBookList() throws DAOException;
+    ArrayList<Book> PrintBookList() throws DAOException;
     void addBook(Book book) throws DAOException, DAOResourceExistsExeption;
     void deleteBook(Book book) throws DAOException, DAOResourceNotFoundException;
-    String getBookDetailInfo(int bookId) throws DAOException;
+    Book getBookDetailInfo(int bookId) throws DAOException;
 }
